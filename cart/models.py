@@ -9,4 +9,10 @@ class Cart(TimeStampModel):
     product  = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields = ('user', 'product'),
+                name   = 'unique_cart'
+            )
+        ]
         db_table = 'carts'
