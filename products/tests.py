@@ -1,6 +1,9 @@
+import json
+
+from django.http import response
 from django.test import TestCase, Client
 
-from .models import *
+from .models     import *
 
 class ProductsAppTest(TestCase):
     def setUp(self):
@@ -116,3 +119,114 @@ class ProductsAppTest(TestCase):
                 }]
             }
         )
+
+class ProductDetailTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+
+        Menu.objects.create(
+            name = '홈'
+        )
+        
+        Category.objects.create(
+            name = '옷',
+            menu_id = 1
+        )
+       
+        SubCategory.objects.create(
+            name = '상의',
+            category_id = 1
+        )
+        
+        Product.objects.create(
+            id = 1,
+            name = '상품1',
+            price = '1111111.00',
+            brand = 'zara',
+            description = '상품1설명입니다',
+            thumbnail_image_url = 'http:상품1썸네일이미지',
+            sub_category_id = 1 
+        )
+       
+        Product.objects.create(
+            id = 2,
+            name = '상품2',
+            price = '222222.00',
+            brand = 'zara2',
+            description = '상품2설명입니다',
+            thumbnail_image_url = 'http:상품2썸네일이미지',
+            sub_category_id = 1
+        )  
+        
+        Product.objects.create(
+            id = 3,
+            name = '상품3',
+            price = '333333.00',
+            brand = 'zara3',
+            description = '상품3설명입니다',
+            thumbnail_image_url = 'http:상품3썸네일이미지',
+            sub_category_id = 1
+        )  
+        
+        Product.objects.create(
+            id = 4,
+            name = '상품4',
+            price = '444444.00',
+            brand = 'zara4',
+            description = '상품4설명입니다',
+            thumbnail_image_url = 'http:상품4썸네일이미지',
+            sub_category_id = 1
+        )  
+        
+        Image.objects.create(
+            image_url = 'http:상품1이미지',
+            product_id = 1
+        )
+        
+        Image.objects.create(
+            image_url = 'http:상품5이미지',
+            product_id = 1
+        )
+        
+        Image.objects.create(
+            image_url = 'http:상품2이미지',
+            product_id = 2
+        )
+        
+        Image.objects.create(
+            image_url = 'http:상품3이미지',
+            product_id = 3
+        )
+
+        Image.objects.create(
+            image_url = 'http:상품4이미지',
+            product_id = 4
+        )
+        
+    def tearDown(self):
+        Product.objects.all().delete() 
+        
+    def test_productdetailview_get_success(self):
+        client = Client()
+        response = client.get('/products/1')
+        self.assertEqual(response.json(),
+            {
+                'message' : {
+                        'name' : '상품1',
+                        'price' : '1111111.00',
+                        'brand' : 'zara',
+                        'description' : '상품1설명입니다',
+                        'thumbnail_image_url' : 'http:상품1썸네일이미지',
+                        'image_url' : ['http:상품1이미지', 'http:상품5이미지']
+                }
+            }
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_productdetailview_get_doesnotexist(self):
+        client = Client()
+        response = client.get('/products/5')
+        self.assertEqual(response.json(),
+            {'message': 'PRODUCT_DOESNOT_EXIST'}
+        )
+        self.assertEqual(response.status_code, 400)
