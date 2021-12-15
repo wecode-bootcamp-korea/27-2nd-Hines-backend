@@ -33,3 +33,26 @@ class ProductListView(View):
             'thumbnail_image_url' : product.thumbnail_image_url } for product in products
         ]
         return JsonResponse({'result':results}, status=200)
+
+class ProductDetailView(View):
+    def get(self, request, product_id):
+        try: 
+            product = Product.objects.get(id=product_id)
+            images  = product.image_set.all() 
+            
+            image_list = []
+            for image in images: 
+                image_list.append(image.image_url)
+
+            result = {
+                        'name'                : product.name,
+                        'price'               : product.price,
+                        'brand'               : product.brand,
+                        'description'         : product.description,
+                        'thumbnail_image_url' : product.thumbnail_image_url,
+                        'image_url'           : image_list
+                    }
+            return JsonResponse({'message' : result}, status=200)     
+
+        except Product.DoesNotExist:
+            return JsonResponse({'message' : 'PRODUCT_DOESNOT_EXIST'}, status=400) 
