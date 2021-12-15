@@ -26,6 +26,7 @@ class Product(TimeStampModel):
     name                = models.CharField(max_length=45)
     price               = models.DecimalField(max_digits=10, decimal_places=2)
     brand               = models.CharField(max_length=45)
+    description         = models.TextField()
     thumbnail_image_url = models.URLField(max_length=1000)
     sub_category        = models.ForeignKey('SubCategory', on_delete=models.CASCADE)
 
