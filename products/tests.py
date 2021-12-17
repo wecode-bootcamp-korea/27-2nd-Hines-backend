@@ -18,6 +18,12 @@ class ProductsAppTest(TestCase):
             menu_id = 1
         )
 
+        Category.objects.create(
+            id      = 2,
+            name    = 'DO',
+            menu_id = 1
+        )
+
         SubCategory.objects.create(
             id          = 1,
             name        = 'PAK',
@@ -28,6 +34,12 @@ class ProductsAppTest(TestCase):
             id          = 2,
             name        = 'RAL',
             category_id = 1
+        )
+
+        SubCategory.objects.create(
+            id          = 3,
+            name        = 'MONS',
+            category_id = 2
         )
 
         Product.objects.create(
@@ -48,6 +60,16 @@ class ProductsAppTest(TestCase):
             description         = 'description',
             thumbnail_image_url = 'https://raw.githubusercontent.com/Djangowon/TIL/main/image/15C58535-76A3-4A64-813A-3896D4A6DEE7.jpeg',
             sub_category_id     = 2
+        )
+
+        Product.objects.create(
+            id                  = 3,
+            name                = 'DOPA',
+            price               = '9999.99',
+            brand               = 'DW',
+            description         = 'description',
+            thumbnail_image_url = 'https://raw.githubusercontent.com/Djangowon/TIL/main/image/15C58535-76A3-4A64-813A-3896D4A6DEE7.jpeg',
+            sub_category_id     = 3
         )
 
     def tearDown(self):
@@ -74,6 +96,13 @@ class ProductsAppTest(TestCase):
                 },{
                     'id':2,
                     'name':'RALO',
+                    'price':'9999.99',
+                    'brand':'DW',
+                    'description':'description',
+                    'thumbnail_image_url':'https://raw.githubusercontent.com/Djangowon/TIL/main/image/15C58535-76A3-4A64-813A-3896D4A6DEE7.jpeg'
+                },{
+                    'id':3,
+                    'name':'DOPA',
                     'price':'9999.99',
                     'brand':'DW',
                     'description':'description',
@@ -117,6 +146,34 @@ class ProductsAppTest(TestCase):
                     'description': 'description', 
                     'thumbnail_image_url': 'https://raw.githubusercontent.com/Djangowon/TIL/main/image/15C58535-76A3-4A64-813A-3896D4A6DEE7.jpeg'
                 }]
+            }
+        )
+    
+    def test_success_categories_view(self):
+        client = Client()
+        response = client.get('/products/categories?category_id=2')
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(response.json(),
+            {
+                'message':'SUCCESS',
+                'result': [{
+                    'id': 2,
+                    'name': 'DO'
+                }]
+            }
+        )
+
+    def test_error_categories_view(self):
+        client = Client()
+        response = client.get('/products/categories?category_id=kk')
+
+        self.assertEqual(response.status_code, 400)
+
+        self.assertEqual(response.json(),
+            {
+                'message':'INVALID_VALUE'
             }
         )
 
@@ -221,6 +278,7 @@ class ProductDetailTest(TestCase):
                 }
             }
         )
+
         self.assertEqual(response.status_code, 200)
 
     def test_productdetailview_get_doesnotexist(self):

@@ -4,7 +4,7 @@ from django.views     import View
 from django.http      import JsonResponse
 from django.db.models import Q
 
-from .models          import Category, Product, SubCategory
+from .models          import Menu, Category, Product, SubCategory
 
 class ProductListView(View):
     def get(self, request):
@@ -56,3 +56,20 @@ class ProductDetailView(View):
 
         except Product.DoesNotExist:
             return JsonResponse({'message' : 'PRODUCT_DOESNOT_EXIST'}, status=400) 
+
+class CategoriesView(View):
+    def get(self, request):
+        try:
+            offset      = int(request.GET.get('offset', 0))
+            limit       = int(request.GET.get('limit', 6))
+            category_id = request.GET.get('category_id')
+
+            categories = [{
+                'id'      : category.id,
+                'name'    : category.name } for category in Category.objects.filter(id=category_id)[offset:offset+limit]
+            ]
+
+            return JsonResponse({'message':'SUCCESS', 'result':categories}, status=200)
+        
+        except ValueError:
+            return JsonResponse({'message':'INVALID_VALUE'}, status=400)
