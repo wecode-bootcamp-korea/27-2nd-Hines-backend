@@ -1,10 +1,13 @@
 import json
+from json             import decoder
 
 from django.views     import View
 from django.http      import JsonResponse
 from django.db.models import Q
 
-from .models          import Menu, Category, Product, SubCategory
+from users.models     import User
+from products.models  import Menu, Category, SubCategory, Product, Review
+from core.decorator   import login_required
 
 class ProductListView(View):
     def get(self, request):
@@ -73,3 +76,34 @@ class CategoriesView(View):
         
         except ValueError:
             return JsonResponse({'message':'INVALID_VALUE'}, status=400)
+            
+class ReviewView(View):
+    @login_required
+    def post(self, request, product_id):
+        try:
+            data       = json.loads(request.body)
+            product_id = product_id
+            content    = data['content']
+            image      = data.get('image_url', '')
+                         
+            if not User.objects.filter(id=request.user.id).exists():
+                return JsonResponse({'message':'UNAUTHORIZED_USER'}, status=401)
+
+            if not Product.objects.get(id=product_id):
+                return JsonResponse({'message':'NO_PRODUCT'}, status=400)
+            
+            Review.objects.create(
+                user_id    = request.user.id, 
+                product_id = product_id,
+                content    = content,
+                image_url  = image
+            )
+            return JsonResponse({'message':'SUCCESS'}, status=200)
+
+        except KeyError:
+            return JsonResponse({'message':'KEY_ERROR'}, status=400)
+
+        except Product.DoesNotExist:
+            return JsonResponse({'message':'NO_PRODUCT'}, status=400)
+
+
