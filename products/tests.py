@@ -149,6 +149,26 @@ class ProductsAppTest(TestCase):
                 }]
             }
         )
+
+    def test_success_product_list_view_by_category_id(self):
+        client = Client()
+        response = client.get('/products?category_id=2')
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(response.json(),
+            {
+                'result': [{
+                    'id': 3, 
+                    'name': 'DOPA', 
+                    'price': '9999.99', 
+                    'brand': 'DW', 
+                    'description': 'description', 
+                    'thumbnail_image_url': 'https://raw.githubusercontent.com/Djangowon/TIL/main/image/15C58535-76A3-4A64-813A-3896D4A6DEE7.jpeg'
+                }]
+            }
+        )
+    
     
     def test_success_categories_view(self):
         client = Client()

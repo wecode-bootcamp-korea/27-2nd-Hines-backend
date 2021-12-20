@@ -11,6 +11,7 @@ from core.decorator   import login_required
 
 class ProductListView(View):
     def get(self, request):
+        category_id     = request.GET.get('category_id')
         sub_category_id = request.GET.get('sub_category_id')
         search_keyword  = request.GET.get('search')
         order_method    = request.GET.get('sort_method', 'created_at')
@@ -27,6 +28,12 @@ class ProductListView(View):
             q &= Q(name__icontains=search_keyword)|Q(brand__icontains=search_keyword)|Q(description__icontains=search_keyword)
 
         products = Product.objects.filter(q).order_by(order_method)[offset:offset+limit]
+
+        if category_id:
+            q &= Q(category_id=category_id)
+
+            products = Product.objects.filter(Q(sub_category_id__category_id=category_id)).order_by(order_method)[offset:offset+limit]
+            
         results = [{
             'id'                  : product.id,
             'name'                : product.name,
