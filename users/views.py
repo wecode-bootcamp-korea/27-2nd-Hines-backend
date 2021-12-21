@@ -22,8 +22,6 @@ class KakaoAPI:
             
             return response.json()
             
-        def get_location():
-            return
     except requests.exceptions.Timeout as errd:
         print("TimeoutError:", errd)
     

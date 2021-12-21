@@ -1,12 +1,11 @@
 import json
-from json             import decoder
 
 from django.views     import View
 from django.http      import JsonResponse
 from django.db.models import Q
 
 from users.models     import User
-from products.models  import Menu, Category, SubCategory, Product, Review
+from products.models  import Category, Product, Review
 from core.decorator   import login_required
 
 class ProductListView(View):
@@ -27,12 +26,10 @@ class ProductListView(View):
         if search_keyword:
             q &= Q(name__icontains=search_keyword)|Q(brand__icontains=search_keyword)|Q(description__icontains=search_keyword)
 
-        products = Product.objects.filter(q).order_by(order_method)[offset:offset+limit]
-
         if category_id:
-            q &= Q(category_id=category_id)
+            q &= Q(sub_category_id__category_id=category_id)
 
-            products = Product.objects.filter(Q(sub_category_id__category_id=category_id)).order_by(order_method)[offset:offset+limit]
+        products = Product.objects.filter(q).order_by(order_method)[offset:offset+limit]
             
         results = [{
             'id'                  : product.id,
@@ -40,8 +37,9 @@ class ProductListView(View):
             'price'               : product.price,
             'brand'               : product.brand,
             'description'         : product.description,
-            'thumbnail_image_url' : product.thumbnail_image_url } for product in products
-        ]
+            'thumbnail_image_url' : product.thumbnail_image_url 
+        } for product in products]
+
         return JsonResponse({'result':results}, status=200)
 
 class ProductDetailView(View):
@@ -50,40 +48,41 @@ class ProductDetailView(View):
             product = Product.objects.get(id=product_id)
             images  = product.image_set.all() 
             
-            image_list = []
-            for image in images: 
-                image_list.append(image.image_url)
+            # image_list = []
+            # for image in images: 
+            #     image_list.append(image.image_url)
 
             result = {
-                        'name'                : product.name,
-                        'price'               : product.price,
-                        'brand'               : product.brand,
-                        'description'         : product.description,
-                        'thumbnail_image_url' : product.thumbnail_image_url,
-                        'image_url'           : image_list
-                    }
+                'name'                : product.name,
+                'price'               : product.price,
+                'brand'               : product.brand,
+                'description'         : product.description,
+                'thumbnail_image_url' : product.thumbnail_image_url,
+                # 'image_url'           : image_list
+                'image_url'           : [image.image_url for image in images]
+            }
+
             return JsonResponse({'message' : result}, status=200)     
 
         except Product.DoesNotExist:
             return JsonResponse({'message' : 'PRODUCT_DOESNOT_EXIST'}, status=400) 
 
 class CategoriesView(View):
+    # 모든 카테고리 리스트
     def get(self, request):
-        try:
-            offset      = int(request.GET.get('offset', 0))
-            limit       = int(request.GET.get('limit', 6))
-            category_id = request.GET.get('category_id')
+        # offset      = int(request.GET.get('offset', 0))
+        # limit       = int(request.GET.get('limit', 6))
+        # category_id = request.GET.get('category_id')
 
-            categories = [{
-                'id'      : category.id,
-                'name'    : category.name } for category in Category.objects.filter(id=category_id)[offset:offset+limit]
-            ]
+        # filtered_categories = Category.objects.filter(id=category_id)[offset:offset+limit]
 
-            return JsonResponse({'message':'SUCCESS', 'result':categories}, status=200)
+        categories = [{
+            'id'   : category.id,
+            'name' : category.name 
+        } for category in Category.objects.all()]
+
+        return JsonResponse({'message':'SUCCESS', 'result':categories}, status=200)
         
-        except ValueError:
-            return JsonResponse({'message':'INVALID_VALUE'}, status=400)
-            
 class ReviewView(View):
     @login_required
     def post(self, request, product_id):
@@ -91,12 +90,12 @@ class ReviewView(View):
             data       = json.loads(request.body)
             product_id = product_id
             content    = data['content']
-            image      = data.get('image_url', '')
+            image      = data.get('image_url', None)
                          
-            if not User.objects.filter(id=request.user.id).exists():
-                return JsonResponse({'message':'UNAUTHORIZED_USER'}, status=401)
+            # if not User.objects.filter(id=request.user.id).exists():
+            #     return JsonResponse({'message':'UNAUTHORIZED_USER'}, status=401)
 
-            if not Product.objects.get(id=product_id):
+            if not Product.objects.filter(id=product_id).exists():
                 return JsonResponse({'message':'NO_PRODUCT'}, status=400)
             
             Review.objects.create(
@@ -105,12 +104,11 @@ class ReviewView(View):
                 content    = content,
                 image_url  = image
             )
-            return JsonResponse({'message':'SUCCESS'}, status=200)
+
+            return JsonResponse({'message':'SUCCESS'}, status=201) # CREATED
 
         except KeyError:
             return JsonResponse({'message':'KEY_ERROR'}, status=400)
 
         except Product.DoesNotExist:
             return JsonResponse({'message':'NO_PRODUCT'}, status=400)
-
-

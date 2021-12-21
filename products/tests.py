@@ -175,7 +175,6 @@ class ProductsAppTest(TestCase):
         response = client.get('/products/categories?category_id=2')
 
         self.assertEqual(response.status_code, 200)
-
         self.assertEqual(response.json(),
             {
                 'message':'SUCCESS',
