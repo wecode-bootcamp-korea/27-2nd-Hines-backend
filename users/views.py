@@ -15,15 +15,13 @@ class KakaoAPI:
 
         def get_kakao_user(self):
             headers = {'Authorization' : f'Bearer ${self.access_token}'}
-            response = requests.get(self.user_url, headers=headers, timeout=0.01)
+            response = requests.get(self.user_url, headers=headers, timeout=0.1)
             
             if not response.status_code == 200:
                 return JsonResponse({'message':'ResponseError'}, status=400)
             
             return response.json()
             
-        def get_location():
-            return
     except requests.exceptions.Timeout as errd:
         print("TimeoutError:", errd)
     
@@ -36,7 +34,7 @@ class KakaoLoginView(View):
             kakao_user         = kakao_api.get_kakao_user()
 
             kakao_id   = kakao_user['id']
-            user_name  = kakao_user['kakao_account']['name']
+            user_name  = kakao_user['kakao_account']['profile']['nickname']
             user_email = kakao_user['kakao_account']['email']
 
             user, created = User.objects.get_or_create(
@@ -48,9 +46,9 @@ class KakaoLoginView(View):
             hines_token = jwt.encode({'id' : user.id}, SECRET_KEY, ALGORITHM)
             
             if not created:
-                return JsonResponse({'message':'CREATED', 'Authorization' : hines_token}, status=200)
+                return JsonResponse({'message':'CREATED', 'Authorization' : hines_token, 'username':user_name}, status=200)
             
-            return JsonResponse({'message':'SUCCESS', 'Authorization' : hines_token}, status=201)
+            return JsonResponse({'message':'SUCCESS', 'Authorization' : hines_token, 'username':user_name}, status=201)
 
         except KeyError:
             return JsonResponse({'message':'KeyError'}, status=400)
