@@ -30,7 +30,7 @@ class ProductListView(View):
             q &= Q(sub_category_id__category_id=category_id)
 
         products = Product.objects.filter(q).order_by(order_method)[offset:offset+limit]
-            
+
         results = [{
             'id'                  : product.id,
             'name'                : product.name,
@@ -41,29 +41,6 @@ class ProductListView(View):
         } for product in products]
 
         return JsonResponse({'result':results}, status=200)
-
-class ProductDetailView(View):
-    def get(self, request, product_id):
-        try: 
-            product = Product.objects.get(id=product_id)
-            images  = product.image_set.all() 
-            
-            image_list = []
-            for image in images: 
-                image_list.append(image.image_url)
-
-            result = {
-                        'name'                : product.name,
-                        'price'               : product.price,
-                        'brand'               : product.brand,
-                        'description'         : product.description,
-                        'thumbnail_image_url' : product.thumbnail_image_url,
-                        'image_url'           : image_list
-                    }
-            return JsonResponse({'result' : result}, status=200)     
-
-        except Product.DoesNotExist:
-            return JsonResponse({'message' : 'PRODUCT_DOESNOT_EXIST'}, status=400) 
 
 class CategoriesView(View):
     def get(self, request):
@@ -79,32 +56,48 @@ class CategoriesView(View):
         } for category in categories]
 
         return JsonResponse({'message':'SUCCESS', 'result':results }, status=200)
-            
+
+class ProductDetailView(View):
+    def get(self, request, product_id):
+        try: 
+            product = Product.objects.get(id=product_id)
+            images  = product.image_set.all() 
+
+            result = {
+                'category_name'       : product.sub_category.category.name,
+                'sub_category_name'   : product.sub_category.name, 
+                'product_name'        : product.name,
+                'price'               : int(product.price),
+                'brand'               : product.brand,
+                'description'         : product.description,
+                'thumbnail_image_url' : product.thumbnail_image_url,
+                'image_url'           : [image.image_url for image in images]
+            }
+            return JsonResponse({'result' : result}, status=200)     
+
+        except Product.DoesNotExist:
+            return JsonResponse({'message' : 'PRODUCT_DOESNOT_EXIST'}, status=400) 
+
 class ReviewView(View):
     @login_required
     def post(self, request, product_id):
         try:
             data       = json.loads(request.body)
-            product_id = product_id
             content    = data['content']
             image      = data.get('image_url', '')
-                         
-            if not User.objects.filter(id=request.user.id).exists():
-                return JsonResponse({'message':'UNAUTHORIZED_USER'}, status=401)
 
-            if not Product.objects.get(id=product_id):
-                return JsonResponse({'message':'NO_PRODUCT'}, status=400)
-            
+            if not Product.objects.filter(id=product_id).exists():
+                return JsonResponse({'message':'INAVID_PRODUCT_ID'}, status=400)
+
             Review.objects.create(
                 user_id    = request.user.id, 
                 product_id = product_id,
                 content    = content,
                 image_url  = image
             )
-            return JsonResponse({'message':'SUCCESS'}, status=200)
+            
+            return JsonResponse({'message':'SUCCESS'}, status=201)
 
         except KeyError:
             return JsonResponse({'message':'KEY_ERROR'}, status=400)
 
-        except Product.DoesNotExist:
-            return JsonResponse({'message':'NO_PRODUCT'}, status=400)
