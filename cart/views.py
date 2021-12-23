@@ -42,11 +42,11 @@ class CartView(View):
         return JsonResponse({'result':results}, status=200)
 
     @login_required
-    def patch(self, request, cart_id):
+    def patch(self, request, product_id):
         try:
             data = json.loads(request.body)
 
-            cart = Cart.objects.get(id=cart_id, user=request.user)
+            cart = Cart.objects.get(product_id=product_id, user=request.user)
 
             cart.quantity = data['quantity']
             cart.save()
@@ -55,6 +55,9 @@ class CartView(View):
 
         except KeyError:
             return JsonResponse({'message':'KEY_ERROR'}, status=400)
+        
+        except Cart.DoesNotExist:
+            return JsonResponse({'message':'CART DOES NOT EXIST'}, status=400)
 
     @login_required
     def delete(self, request):
