@@ -153,7 +153,8 @@ class CartAppTest(TestCase):
                 'product_id'    : 1,
                 'product_name'  : 'PAKA',
                 'product_price' : '9999.99',
-                'product_brand' : 'DW'}]}
+                'product_brand' : 'DW',
+                'product_image' : 'https://raw.githubusercontent.com/Djangowon/TIL/main/image/15C58535-76A3-4A64-813A-3896D4A6DEE7.jpeg'}]}
         )
 
     def test_success_patch_cart_view(self):
