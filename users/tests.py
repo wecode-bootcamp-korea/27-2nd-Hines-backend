@@ -8,9 +8,14 @@ class KakaoLogin(TestCase):
         client = Client()
         
         class MockedResponse:
+            status_code=200
             def json(self):
-                return {"id":"123456789", "kakao_account": 
-                    {"name":"홍길동", "email":"test@gmail.com"}}
+                return {
+                    "id":"123456789", 
+                    "kakao_account": {
+                        "profile": {
+                            "nickname":"홍길동"}, 
+                        "email":"test@gmail.com"}}
                 
         mocked_requests.get = MagicMock(return_value = MockedResponse())
         headers             = {"HTTP_Authorization": "fake access_token"}
