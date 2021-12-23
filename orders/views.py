@@ -23,9 +23,9 @@ class OrderView(View):
     @login_required
     def post(self, request):
         try:
-            data    = json.loads(request.body)
-            cart_id = data['cart_id']
-            carts   = Cart.objects.filter(id=cart_id, user=request.user)
+            data     = json.loads(request.body)
+            cart_ids = data['cart_ids']
+            carts    = Cart.objects.filter(id__in=cart_ids, user=request.user)
 
             if not carts.exists():
                 return JsonResponse({'message':'INVALID_CART'}, status=404)
