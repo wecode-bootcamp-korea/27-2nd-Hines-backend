@@ -4,7 +4,6 @@ from django.http      import JsonResponse
 from django.views     import View
 from core.decorator   import login_required
 from .models          import Cart
-from products.models  import Product
 
 class CartView(View):
     @login_required
@@ -61,9 +60,8 @@ class CartView(View):
 
     @login_required
     def delete(self, request):
-        cart_ids = request.GET.get('cartIds')
-
-        Cart.objects.filter(id__in=cart_ids, user_id=request.user).delete()
+        cart_id = request.GET.get('cartIds')
+        Cart.objects.filter(id=cart_id, user=request.user).delete()
 
         return JsonResponse({'message':'NO_CONTENTS'}, status=204)
     
