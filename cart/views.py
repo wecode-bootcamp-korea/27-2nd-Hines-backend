@@ -35,7 +35,8 @@ class CartView(View):
             'product_id'    : cart.product.id,
             'product_name'  : cart.product.name,
             'product_price' : cart.product.price,
-            'product_brand' : cart.product.brand } for cart in carts 
+            'product_brand' : cart.product.brand,
+            'product_image' : cart.product.thumbnail_image_url } for cart in carts 
         ]
 
         return JsonResponse({'result':results}, status=200)
