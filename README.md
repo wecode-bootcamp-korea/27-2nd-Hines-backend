@@ -1,5 +1,5 @@
 # 27-2nd-Hines-backend
-> [오늘의집](https://ohou.se/store?utm_source=brand_google&utm_medium=cpc&utm_campaign=commerce&utm_content=e&utm_term=%EC%98%A4%EB%8A%98%EC%9D%98%EC%A7%91&source=14&affect_type=UtmUrl&gclid=Cj0KCQiA2ZCOBhDiARIsAMRfv9KqcY4mcWWZikC6z5zRQa7ZkFj4jcVxD_ZFBb1CgGwjTPNQPmBfBhQaAi7yEALw_wcB
+> [오늘의집](https://ohou.se/store?utm_source=brand_google&utm_medium=cpc&utm_campaign=commerce&utm_content=e&utm_term=%EC%98%A4%EB%8A%98%EC%9D%98%EC%A7%91&source=14&affect_type=UtmUrl&gclid=Cj0KCQiA2ZCOBhDiARIsAMRfv9KqcY4mcWWZikC6z5zRQa7ZkFj4jcVxD_ZFBb1CgGwjTPNQPmBfBhQaAi7yEALw_wcB)
 > 사이트의 다양한 기능 중 커머스 기능을 중심으로, '몇 십년 뒤의 집'이라는 컨셉 하에 우주 속 다른 행성들의 땅을 소개하고 필요한 물품 판매를 목적으로 하는 사이트.
 
 # 프로젝트 개요
