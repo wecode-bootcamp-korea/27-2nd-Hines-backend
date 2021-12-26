@@ -23,7 +23,7 @@
 <br>
 
 ## 모델링
-[ERD url](https://github.com/Ted0527/images/blob/main/hines%20(%EC%B5%9C%EC%A2%85).pdf)
+[ERD url](https://raw.githubusercontent.com/Ted0527/images/main/%ED%95%98%EC%9D%B8%EC%A6%88_%EB%AA%A8%EB%8D%B8%EB%A7%81.png?token=AUJUHNLHWKUFSDYRZAW6FK3BZBLRO)
 <br>
 
 ## SKillS
