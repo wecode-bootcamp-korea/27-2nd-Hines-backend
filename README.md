@@ -10,8 +10,8 @@
 - backend : 
 이유진, 장도원, 제갈창민
 - frontend : 
-이지현, 홍정빈, 황주영
-[github](주소)
+이지현, 홍정빈, 황주영</br>
+[Frontend github](https://github.com/wecode-bootcamp-korea/27-2nd-Hines-frontend)
 
 
 <br>
@@ -20,10 +20,10 @@
 - 그동안 학습했던 지식들을 2주 간의 팀 프로젝트에 활용
 - 초기 세팅부터 전부 실제 사용할 수 있는 서비스 수준으로 기획 및 배포까지 구현
 
-<Br>
+<br>
 
 ## 모델링
-
+[!][ERD](https://github.com/Ted0527/images/blob/main/hines%20(%EC%B5%9C%EC%A2%85).pdf)
 <br>
 
 ## SKillS
@@ -31,6 +31,7 @@
 - Django
 - Mysql
 - Miniconda
+- AWS
 
 <br>
 
@@ -53,7 +54,9 @@
 
 <br>
 
-## 구현 영상
+## 시연 영상 및 배포 url(url은 곧 삭제됩니다.)</br>
+[배포 url](http://3.17.109.155:8000/) </br>
+[시연 영상](https://www.youtube.com/watch?v=vRStHiqn7qM)
 
 <br>
 
