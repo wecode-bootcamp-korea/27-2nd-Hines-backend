@@ -22,7 +22,7 @@
 <br>
 
 ## 모델링
-[ERD url](https://raw.githubusercontent.com/Ted0527/images/main/%ED%95%98%EC%9D%B8%EC%A6%88_%EB%AA%A8%EB%8D%B8%EB%A7%81.png?token=AUJUHNLHWKUFSDYRZAW6FK3BZBLRO)
+[ERD url](https://drive.google.com/file/d/13y8nRCN6WYFtsMzS5BUNi1MNyUJPcacA/view?usp=sharing)
 <br>
 
 ## SKillS
