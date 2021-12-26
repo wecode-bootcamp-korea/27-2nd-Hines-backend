@@ -54,8 +54,7 @@
 
 <br>
 
-## 시연 영상 및 배포 url(url은 곧 삭제됩니다.)</br>
-[배포 url](http://3.17.109.155:8000/) </br>
+## 시연 영상</br>
 [시연 영상](https://www.youtube.com/watch?v=Z4Hw1AQc_og)
 
 <br>
