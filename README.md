@@ -1,24 +1,23 @@
 # 27-2nd-Hines-backend
-> [오늘의집](https://ohou.se/store?utm_source=brand_google&utm_medium=cpc&utm_campaign=commerce&utm_content=e&utm_term=%EC%98%A4%EB%8A%98%EC%9D%98%EC%A7%91&source=14&affect_type=UtmUrl&gclid=Cj0KCQiA2ZCOBhDiARIsAMRfv9KqcY4mcWWZikC6z5zRQa7ZkFj4jcVxD_ZFBb1CgGwjTPNQPmBfBhQaAi7yEALw_wcB)
-서비스 중 스토어에 초점을 맞추어 ‘몇십년 후의 집’ 이라고 초기 컨셉으로 클론 코딩한 Hines팀입니다.
+> [오늘의집](https://ohou.se/store?utm_source=brand_google&utm_medium=cpc&utm_campaign=commerce&utm_content=e&utm_term=%EC%98%A4%EB%8A%98%EC%9D%98%EC%A7%91&source=14&affect_type=UtmUrl&gclid=Cj0KCQiA2ZCOBhDiARIsAMRfv9KqcY4mcWWZikC6z5zRQa7ZkFj4jcVxD_ZFBb1CgGwjTPNQPmBfBhQaAi7yEALw_wcB
+> 사이트의 다양한 기능 중 커머스 기능을 중심으로, '몇 십년 뒤의 집'이라는 컨셉 하에 우주 속 다른 행성들의 땅을 소개하고 필요한 물품 판매를 목적으로 하는 사이트.
 
 # 프로젝트 개요
 ## 기간
 - 2021.12.13 ~ 2021.12.24
 
 ## 멤버
-- backend : 
-이유진, 장도원, 제갈창민
-- frontend : 
-이지현, 홍정빈, 황주영</br>
+- backend : 이유진, 장도원, 제갈창민
+- frontend : 이지현, 홍정빈, 황주영</br>
 [Frontend github](https://github.com/wecode-bootcamp-korea/27-2nd-Hines-frontend)
 
 
 <br>
 
 ## 목표
-- 그동안 학습했던 지식들을 2주 간의 팀 프로젝트에 활용
+- 다양한 툴(Trello, Notion, Slack, Github)을 사용함으로써 의사소통 능력 증대
 - 초기 세팅부터 전부 실제 사용할 수 있는 서비스 수준으로 기획 및 배포까지 구현
+- 화려하고, 고난이도의 로직을 구현하기보다는 그동안 학습했던 지식들을 2주 간의 팀 프로젝트에 복습 및 다진다는 것이 궁극적 목표
 
 <br>
 
@@ -27,10 +26,11 @@
 <br>
 
 ## SKillS
+- Javascript
+- React
 - Python
 - Django
 - Mysql
-- Miniconda
 - AWS
 
 <br>
